@@ -89,7 +89,9 @@ function playSong(title, desc, audioUrl) {
       
       <div class="player-controls">
         <button class="control-btn" id="shuffleBtn" title="Shuffle">${isShuffling ? '🔀' : '↔️'}</button>
+        <button class="control-btn" id="prevBtn" title="Previous">⏮</button>
         <button class="play-btn" id="playBtn">▶</button>
+        <button class="control-btn" id="nextBtn" title="Next">⏭</button>
         <button class="control-btn" id="repeatBtn" title="Repeat">${['⟲', '🔁', '1️⃣'][repeatMode]}</button>
         
         <div class="progress-container">
@@ -157,6 +159,8 @@ function setupCustomPlayer(audioUrl, songTitle) {
   const durationEl = document.getElementById('duration');
   const volumeSlider = document.getElementById('volumeSlider');
   const shuffleBtn = document.getElementById('shuffleBtn');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
   const repeatBtn = document.getElementById('repeatBtn');
   const visualizer = document.getElementById('visualizer');
   const addNoteBtn = document.getElementById('addNoteBtn');
@@ -191,6 +195,16 @@ function setupCustomPlayer(audioUrl, songTitle) {
     repeatMode = (repeatMode + 1) % 3;
     repeatBtn.textContent = ['⟲', '🔁', '1️⃣'][repeatMode];
     updateStats();
+  });
+  
+  // Previous
+  prevBtn.addEventListener('click', function() {
+    playPreviousSong();
+  });
+  
+  // Next
+  nextBtn.addEventListener('click', function() {
+    playNextSong();
   });
   
   // Update duration
@@ -259,6 +273,18 @@ function setupCustomPlayer(audioUrl, songTitle) {
   
   // Auto-play
   audio.play();
+}
+
+function playPreviousSong() {
+  const currentCard = document.querySelector('.card.now-playing');
+  const allCards = Array.from(document.querySelectorAll('.card'));
+  const currentIdx = allCards.indexOf(currentCard);
+  const prevIdx = (currentIdx - 1 + songs.length) % songs.length;
+  
+  const prevCard = document.querySelectorAll('.card')[prevIdx];
+  if (prevCard) {
+    prevCard.click();
+  }
 }
 
 function playNextSong() {
