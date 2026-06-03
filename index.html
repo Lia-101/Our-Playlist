@@ -263,7 +263,7 @@ function setupCustomPlayer(audioUrl, songTitle) {
     if (repeatMode === 2) {
       audio.currentTime = 0;
       audio.play();
-    } else if (repeatMode === 1 || isShuffling) {
+    } else {
       playNextSong();
     }
   });
